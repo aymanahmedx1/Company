@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Department>
+@{
+    ViewData["Title"] = "Index";
+}
+
+@if (Model.Count() > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">@Html.DisplayNameFor(x => x.Code)</th>
+                <th scope="col">@Html.DisplayNameFor(x => x.Name)</th>
+                <th scope="col">@Html.DisplayNameFor(x => x.CreatedAt)</th>
+                <th scope="col">Details</th>
+                <th scope="col">Update</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var department in Model)
+            {
+                <tr>
+                    <th scope="row">1</th>
+                    <td>@department.Code</td>
+                    <td>@department.Name</td>
+                    <td>@department.CreatedAt</td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@department" class="btn btn-success">
+                            <i class="fa-solid fa-info"></i> Details
+                        </a>
+                    </td>
+                    <td>
+                        <a asp-action="Update" asp-route-id="@department" class="btn btn-info">
+                            <i class="fa-solid fa-pen-to-square"></i> Update
+                        </a>
+                    </td>
+                    <td>
+                        <a asp-action="Delete" asp-route-id="@department" class="btn btn-danger">
+                            <i class="fa-regular fa-trash-can"></i> Delete
+                        </a>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-warning" role="alert">
+        No Department Here ... Add One
+    </div>
+}
