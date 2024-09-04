@@ -1,5 +1,4 @@
-﻿
-using Company.Data.Contexts;
+﻿using Company.Data.Contexts;
 using Company.Data.Models;
 using Company.Repository.Interfaces;
 
@@ -14,27 +13,21 @@ namespace Company.Repository.Repositories
             _context = context;
         }
         public void Add(TEntity entity)
-        {
-            _context.Set<TEntity>().Add(entity);
-            _context.SaveChanges();
-        }
+        => _context.Set<TEntity>().Add(entity);
+
 
         public void Delete(TEntity entity)
-        {
-            _context.Set<TEntity>().Remove(entity);
-            _context.SaveChanges();
-        }
+        => _context.Set<TEntity>().Remove(entity);
+
 
         public IEnumerable<TEntity> GetAll()
         => _context.Set<TEntity>().ToList();
 
-        public void GetById(int id)
-        => _context.Set<TEntity>().FirstOrDefault(x=>x.Id == id);
+        public TEntity GetById(int id)
+        => _context.Set<TEntity>().FirstOrDefault(x => x.Id == id);
 
         public void Update(TEntity entity)
-        {
-            _context.Set<TEntity>().Update(entity);
-            _context.SaveChanges();
-        }
+        => _context.Set<TEntity>().Update(entity);
+
     }
 }

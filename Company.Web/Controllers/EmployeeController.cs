@@ -1,50 +1,57 @@
 ﻿using Company.Data.Models;
-using Company.Repository.Interfaces;
-using Company.Repository.Repositories;
 using Company.Service.Interface;
+using Company.Service.Services;
 
 using Microsoft.AspNetCore.Mvc;
 
 namespace Company.Web.Controllers
 {
-    public class DepartmentController : Controller
+    public class EmployeeController : Controller
     {
-        private readonly IDepartmentService _departmentService;
-        public DepartmentController(IDepartmentService departmentService)
+        public EmployeeController(IEmployeeService employeeService , IDepartmentService departmentService)
         {
+            _employeeService = employeeService;
             _departmentService = departmentService;
         }
+
+        public IEmployeeService _employeeService { get; }
+        public IDepartmentService _departmentService { get; }
+
         public IActionResult Index()
         {
-            var departments = _departmentService.GetAll();
-            return View(departments);
+            var emps = _employeeService.GetAll();
+            return View(emps);
         }
+
         [HttpGet]
         public IActionResult Create()
         {
+            ViewBag.Departments = _departmentService.GetAll();
             return View();
         }
 
         [HttpPost]
-        public IActionResult Create(Department department)
+        public IActionResult Create(Employee employee)
         {
             if (ModelState.IsValid)
             {
-                _departmentService.Add(department);
+                employee.ImageUrl = "";
+                _employeeService.Add(employee);
                 return RedirectToAction(nameof(Index));
             }
-            return View(department);
+            return View(employee);
         }
 
         [HttpGet]
         public IActionResult Details(int? id, string viewName = "Details")
         {
-            var department = _departmentService.GetById(id);
-            if (department == null)
+            var employee = _employeeService.GetById(id);
+            if (employee == null)
             {
                 return NotFound();
             }
-            return View(viewName, department);
+            ViewBag.Departments = _departmentService.GetAll();
+            return View(viewName, employee);
         }
 
         [HttpGet]
@@ -53,13 +60,13 @@ namespace Company.Web.Controllers
             return Details(id, "Update");
         }
         [HttpPost]
-        public IActionResult Update(int id, Department department)
+        public IActionResult Update(int id, Employee employee)
         {
             if (ModelState.IsValid)
             {
-                if (id == department.Id)
+                if (id == employee.Id)
                 {
-                    _departmentService.Update(department);
+                    _employeeService.Update(employee);
                     return RedirectToAction(nameof(Index));
                 }
                 return NotFound();
@@ -72,10 +79,12 @@ namespace Company.Web.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            var department = _departmentService.GetById(id);
-            _departmentService.Delete(department);
+            var employee = _employeeService.GetById(id);
+            _employeeService.Delete(employee);
             return RedirectToAction(nameof(Index));
         }
+
+
 
     }
 }

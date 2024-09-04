@@ -1,9 +1,9 @@
-﻿@model IEnumerable<Department>
+﻿@model IEnumerable<Employee>
 @{
     ViewData["Title"] = "Index";
 }
 <div class="alert alert-success my-3 d-flex justify-content-center align-items-center w-50 mx-auto" role="alert">
-    <h1> Departments </h1>
+    <h1> Employees </h1>
 </div>
 <a asp-action="Create" class="btn btn-primary">Create New </a>
 
@@ -12,9 +12,12 @@
     <table class="table">
         <thead>
             <tr>
-                <th scope="col">@Html.DisplayNameFor(x => x.Code)</th>
                 <th scope="col">@Html.DisplayNameFor(x => x.Name)</th>
-                <th scope="col">@Html.DisplayNameFor(x => x.CreatedAt)</th>
+                <th scope="col">@Html.DisplayNameFor(x => x.Age)</th>
+                <th scope="col">@Html.DisplayNameFor(x => x.Address)</th>
+                <th scope="col">@Html.DisplayNameFor(x => x.Salary)</th>
+                <th scope="col">@Html.DisplayNameFor(x => x.Email)</th>
+                <th scope="col">@Html.DisplayNameFor(x => x.PhoneNumer)</th>
                 <th scope="col">Details</th>
                 <th scope="col">Update</th>
                 <th scope="col">Delete</th>
@@ -24,12 +27,15 @@
             @foreach (var department in Model)
             {
                 <tr>
-                    <td>@department.Code</td>
                     <td>@department.Name</td>
-                    <td>@department.CreatedAt</td>
+                    <td>@department.Age</td>
+                    <td>@department.Address</td>
+                    <td>@department.Salary</td>
+                    <td>@department.Email</td>
+                    <td>@department.PhoneNumer</td>
                     <td>
                         <a asp-action="Details" asp-route-id="@department.Id" class="btn btn-success">
-                          Details
+                            Details
                         </a>
                     </td>
                     <td>
@@ -51,6 +57,6 @@
 else
 {
     <div class="alert alert-warning" role="alert">
-        No Department Here ... Add One
+        No Employees Here ... Add One
     </div>
 }

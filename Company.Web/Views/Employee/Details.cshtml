@@ -1,0 +1,47 @@
+﻿@model Employee
+@{
+    var selectList = new SelectList(ViewBag.Departments, nameof(Department.Id), nameof(Department.Name));
+}
+<h1 class="my-3">Employee Details</h1>
+<div class="container">
+    <form asp-action="Create" class="mt-5">
+        <div class="form-group mb-1">
+            <label asp-for="Name" class="col-form-label">Name</label>
+            <input type="text" class="form-control" asp-for="Name" readonly>
+        </div>
+        <div class="form-group mb-1">
+            <label asp-for="Age" class="col-form-label">Age</label>
+            <input type="number" class="form-control" asp-for="Age" readonly>
+        </div>
+        <div class="form-group mb-1">
+            <label asp-for="Address" class="col-form-label">Address</label>
+            <input type="text" class="form-control" asp-for="Address" readonly>
+        </div>
+        <div class="form-group mb-1">
+            <label asp-for="Salary" class="col-form-label">Salary</label>
+            <input type="number" class="form-control" asp-for="Salary" readonly>
+        </div>
+        <div class="form-group mb-1">
+            <label asp-for="Email" class="col-form-label">Email</label>
+            <input type="email" class="form-control" asp-for="Email" readonly>
+        </div>
+        <div class="form-group mb-1">
+            <label asp-for="PhoneNumer" class="col-form-label">PhoneNumer</label>
+            <input type="tel" class="form-control" asp-for="PhoneNumer" readonly>
+        </div>
+        <div class="form-group mb-1">
+            <label asp-for="HiringDate" class="col-form-label">HiringDate</label>
+            <input type="date" class="form-control" asp-for="HiringDate" readonly>
+        </div>
+        <div class="form-group mb-1">
+            <label asp-for="DepartmentId" class="col-form-label">Department</label>
+            <select asp-items="selectList" type="" class="form-control" asp-for="DepartmentId" disabled>
+            </select>
+        </div>
+
+
+        <a asp-action="Update" asp-route-id="@Model.Id" class="btn btn-success px-4 my-4"> Edit </a>
+        <a asp-action="index" class="btn btn-outline-primary px-3"> Back </a>
+
+    </form>
+</div>
