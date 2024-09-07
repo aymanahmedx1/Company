@@ -1,6 +1,5 @@
-﻿using Company.Data.Models;
+﻿using Company.Service.Dtos;
 using Company.Service.Interface;
-using Company.Service.Services;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,19 +7,28 @@ namespace Company.Web.Controllers
 {
     public class EmployeeController : Controller
     {
-        public EmployeeController(IEmployeeService employeeService , IDepartmentService departmentService)
+        public EmployeeController(IEmployeeService EmployeeService, IDepartmentService departmentService)
         {
-            _employeeService = employeeService;
+            _EmployeeService = EmployeeService;
             _departmentService = departmentService;
         }
 
-        public IEmployeeService _employeeService { get; }
+        public IEmployeeService _EmployeeService { get; }
         public IDepartmentService _departmentService { get; }
 
-        public IActionResult Index()
+        public IActionResult Index(string searchText)
         {
-            var emps = _employeeService.GetAll();
-            return View(emps);
+            IEnumerable<EmployeeDto> employeeDtos = new List<EmployeeDto>();
+
+            if (!string.IsNullOrEmpty(searchText))
+            {
+                employeeDtos = _EmployeeService.GetByName(searchText);
+                ViewBag.SearchText = searchText;
+            }
+            else
+                employeeDtos = _EmployeeService.GetAll();
+
+            return View(employeeDtos);
         }
 
         [HttpGet]
@@ -31,42 +39,43 @@ namespace Company.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Employee employee)
+        public IActionResult Create(EmployeeDto EmployeeDto)
         {
             if (ModelState.IsValid)
             {
-                employee.ImageUrl = "";
-                _employeeService.Add(employee);
+                _EmployeeService.Add(EmployeeDto);
                 return RedirectToAction(nameof(Index));
             }
-            return View(employee);
+            return RedirectToAction(nameof(Create));
         }
 
         [HttpGet]
         public IActionResult Details(int? id, string viewName = "Details")
         {
-            var employee = _employeeService.GetById(id);
-            if (employee == null)
+            var EmployeeDto = _EmployeeService.GetById(id);
+            if (EmployeeDto == null)
             {
                 return NotFound();
             }
             ViewBag.Departments = _departmentService.GetAll();
-            return View(viewName, employee);
+
+            return View(viewName, EmployeeDto);
         }
 
         [HttpGet]
         public IActionResult Update(int? id)
         {
+            ViewBag.error = true;
             return Details(id, "Update");
         }
         [HttpPost]
-        public IActionResult Update(int id, Employee employee)
+        public IActionResult Update(int id, EmployeeDto EmployeeDto)
         {
             if (ModelState.IsValid)
             {
-                if (id == employee.Id)
+                if (id == EmployeeDto.Id)
                 {
-                    _employeeService.Update(employee);
+                    _EmployeeService.Update(EmployeeDto);
                     return RedirectToAction(nameof(Index));
                 }
                 return NotFound();
@@ -79,8 +88,8 @@ namespace Company.Web.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            var employee = _employeeService.GetById(id);
-            _employeeService.Delete(employee);
+            var EmployeeDto = _EmployeeService.GetByIdAsNoTracking(id);
+            _EmployeeService.Delete(EmployeeDto);
             return RedirectToAction(nameof(Index));
         }
 

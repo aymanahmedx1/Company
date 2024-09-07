@@ -1,6 +1,4 @@
-﻿using Company.Data.Models;
-using Company.Repository.Interfaces;
-using Company.Repository.Repositories;
+﻿using Company.Service.Dtos;
 using Company.Service.Interface;
 
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +8,7 @@ namespace Company.Web.Controllers
     public class DepartmentController : Controller
     {
         private readonly IDepartmentService _departmentService;
+
         public DepartmentController(IDepartmentService departmentService)
         {
             _departmentService = departmentService;
@@ -26,13 +25,15 @@ namespace Company.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Department department)
+        public IActionResult Create(DepartmentDto department)
         {
             if (ModelState.IsValid)
             {
                 _departmentService.Add(department);
                 return RedirectToAction(nameof(Index));
             }
+
+            ViewBag.error = true; 
             return View(department);
         }
 
@@ -53,7 +54,7 @@ namespace Company.Web.Controllers
             return Details(id, "Update");
         }
         [HttpPost]
-        public IActionResult Update(int id, Department department)
+        public IActionResult Update(int id, DepartmentDto department)
         {
             if (ModelState.IsValid)
             {
@@ -65,6 +66,7 @@ namespace Company.Web.Controllers
                 return NotFound();
 
             }
+            ViewBag.error = true;
             return Details(id, "Update");
         }
 
@@ -72,7 +74,7 @@ namespace Company.Web.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            var department = _departmentService.GetById(id);
+            var department = _departmentService.GetByIdAsNoTracking(id);
             _departmentService.Delete(department);
             return RedirectToAction(nameof(Index));
         }

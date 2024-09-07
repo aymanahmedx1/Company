@@ -2,6 +2,8 @@
 using Company.Data.Models;
 using Company.Repository.Interfaces;
 
+using Microsoft.EntityFrameworkCore;
+
 namespace Company.Repository.Repositories
 {
     public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : BaseEntity
@@ -25,6 +27,8 @@ namespace Company.Repository.Repositories
 
         public TEntity GetById(int id)
         => _context.Set<TEntity>().FirstOrDefault(x => x.Id == id);
+        public TEntity GetByIdAsNoTracking(int id)
+             => _context.Set<TEntity>().AsNoTracking().FirstOrDefault(x => x.Id == id);
 
         public void Update(TEntity entity)
         => _context.Set<TEntity>().Update(entity);

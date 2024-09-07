@@ -1,6 +1,14 @@
-﻿@model Department
+﻿@model DepartmentDto
 
 <h1 class="my-3">Update Department</h1>
+@if (ViewBag.error == true)
+{
+    <div class="alert alert-danger" role="alert">
+        @Html.ValidationSummary()
+
+    </div>
+}
+
 <div class="container">
     <form asp-action="Update" class="mt-5">
         <div class="form-group mb-3">

@@ -8,6 +8,11 @@ namespace Company.Repository.Repositories
     {
         public EmployeeRepository(CompanyDbContext context) : base(context)
         {
+            _context = context;
         }
+        public CompanyDbContext _context { get; }
+
+        public IEnumerable<Employee> GetByName(string name)
+        => _context.Employees.Where(x => x.Name.Contains(name));
     }
 }

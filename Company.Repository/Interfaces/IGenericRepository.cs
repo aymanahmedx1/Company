@@ -9,6 +9,8 @@ namespace Company.Repository.Interfaces
         public void Update(TEntity entity);
         public void Delete(TEntity entity);
         public TEntity GetById(int id);
+        public TEntity GetByIdAsNoTracking(int id);
         public IEnumerable<TEntity> GetAll();
+
     }
 }

@@ -3,7 +3,7 @@ using Company.Repository.Interfaces;
 using Company.Repository.Repositories;
 using Company.Service.Interface;
 using Company.Service.Services;
-
+using Company.Service.Helpers;
 using Microsoft.EntityFrameworkCore;
 
 namespace Company.Web
@@ -25,7 +25,7 @@ namespace Company.Web
             builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-            
+            builder.Services.AddAutoMapper(x => x.AddProfile(new CustomAutoMapper()));
 
             var app = builder.Build();
 

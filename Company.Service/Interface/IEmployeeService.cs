@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Company.Data.Models;
+﻿using Company.Service.Dtos;
 
 namespace Company.Service.Interface
 {
     public interface IEmployeeService
     {
-        public void Add(Employee employee);
-        public void Update(Employee employee);
-        public void Delete(Employee employee);
-        public Employee GetById(int? id);
-        public IEnumerable<Employee> GetAll();
+        public void Add(EmployeeDto EmployeeDto);
+        public void Update(EmployeeDto EmployeeDto);
+        public void Delete(EmployeeDto EmployeeDto);
+        public EmployeeDto GetById(int? id);
+        public EmployeeDto GetByIdAsNoTracking(int? id);
+        public IEnumerable<EmployeeDto> GetByName(string name);
+        public IEnumerable<EmployeeDto> GetAll();
     }
 }

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Employee>
+﻿@model IEnumerable<EmployeeDto>
 @{
     ViewData["Title"] = "Index";
 }
@@ -6,13 +6,21 @@
     <h1> Employees </h1>
 </div>
 <a asp-action="Create" class="btn btn-primary">Create New </a>
-
+<div class="my-3">
+    <form asp-action="Index">
+        <div class="d-flex justify-content-center align-items-center w-50 mx-auto">
+            <input type="search" name="searchText" placeholder="Search For Name" class="form-control" value="@ViewBag.SearchText" />
+            <button type="submit" class="btn btn-outline-success mx-2">Search</button>
+        </div>
+    </form>
+</div>
 @if (Model.Count() > 0)
 {
     <table class="table">
         <thead>
             <tr>
                 <th scope="col">@Html.DisplayNameFor(x => x.Name)</th>
+                <th scope="col">@Html.DisplayNameFor(x => x.Image)</th>
                 <th scope="col">@Html.DisplayNameFor(x => x.Age)</th>
                 <th scope="col">@Html.DisplayNameFor(x => x.Address)</th>
                 <th scope="col">@Html.DisplayNameFor(x => x.Salary)</th>
@@ -24,30 +32,19 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var department in Model)
+            @foreach (var employee in Model)
             {
                 <tr>
-                    <td>@department.Name</td>
-                    <td>@department.Age</td>
-                    <td>@department.Address</td>
-                    <td>@department.Salary</td>
-                    <td>@department.Email</td>
-                    <td>@department.PhoneNumer</td>
+                    <td>@employee.Name</td>
                     <td>
-                        <a asp-action="Details" asp-route-id="@department.Id" class="btn btn-success">
-                            Details
-                        </a>
+                        <img src="~/files/employees/@employee.ImageUrl" alt="@employee.Name" width="40px" height="40px" />
                     </td>
-                    <td>
-                        <a asp-action="Update" asp-route-id="@department.Id" class="btn btn-info">
-                            Update
-                        </a>
-                    </td>
-                    <td>
-                        <a asp-action="Delete" asp-route-id="@department.Id" class="btn btn-danger">
-                            Delete
-                        </a>
-                    </td>
+                    <td>@employee.Age</td>
+                    <td>@employee.Address</td>
+                    <td>@employee.Salary</td>
+                    <td>@employee.Email</td>
+                    <td>@employee.PhoneNumer</td>
+                    <partial name="ActionButtonsPartialView" model="@employee.Id"></partial>
                 </tr>
             }
 
@@ -56,7 +53,16 @@
 }
 else
 {
-    <div class="alert alert-warning" role="alert">
-        No Employees Here ... Add One
-    </div>
+    @if (Model.Count() < 1 && !string.IsNullOrEmpty(ViewBag.SearchText))
+    {
+        <div class="alert alert-warning" role="alert">
+            No Employees Match <span class="text-danger fw-bold">@ViewBag.SearchText</span>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning" role="alert">
+            No Employees Here... Add One
+        </div>
+    }
 }
