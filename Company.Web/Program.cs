@@ -5,6 +5,8 @@ using Company.Service.Interface;
 using Company.Service.Services;
 using Company.Service.Helpers;
 using Microsoft.EntityFrameworkCore;
+using Company.Data.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Company.Web
 {
@@ -20,7 +22,26 @@ namespace Company.Web
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
+            builder.Services.AddIdentity<AppUser, IdentityRole>(config => {
+                config.Password.RequiredUniqueChars = 2; 
+                config.Password.RequireDigit = true; 
+                config.Password.RequireLowercase = true; 
+                config.Password.RequireUppercase = true; 
+                config.User.RequireUniqueEmail = true; 
 
+            }).AddEntityFrameworkStores<CompanyDbContext>();
+
+            builder.Services.ConfigureApplicationCookie(op => { 
+                op.Cookie.HttpOnly = true;  
+                op.Cookie.Name = "SecurityCookie";
+                op.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                op.Cookie.SameSite = SameSiteMode.Strict;
+                op.ExpireTimeSpan = TimeSpan.FromMinutes(10);
+                op.SlidingExpiration = true;
+                op.LoginPath = "/Account/Login";
+                op.LogoutPath = "/Account/Logout";
+                op.AccessDeniedPath = "/Account/AccessDeny";
+            });
             builder.Services.AddScoped<IDepartmentService, DepartmentService>();
             builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 
@@ -41,7 +62,7 @@ namespace Company.Web
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(
