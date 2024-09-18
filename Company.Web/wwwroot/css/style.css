@@ -150,6 +150,7 @@ body {
     -ms-background-size: cover;
     background-position: center center;
     padding: 115px 0;
+    height:100vh;
     max-height: 100vh;
     margin: 0;
     box-sizing: border-box;
@@ -280,12 +281,12 @@ body {
   background-image: -webkit-linear-gradient(to left, #74ebd5, #9face6);
   background-image: linear-gradient(to left, #74ebd5, #9face6); }
 
-input[type=checkbox]:not(old) {
+/*input[type=checkbox]:not(old) {
   width: 2em;
   margin: 0;
   padding: 0;
   font-size: 1em;
-  display: none; }
+  display: none; }*/
 
 input[type=checkbox]:not(old) + label {
   display: inline-block;
@@ -365,3 +366,6 @@ input[type=checkbox]:not(old):checked + label > span:before {
     padding: 50px 25px; } }
 
 /*# sourceMappingURL=style.css.map */
+input[type=checkbox]:not(old) {
+    display: block;
+}

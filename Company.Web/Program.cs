@@ -29,7 +29,7 @@ namespace Company.Web
                 config.Password.RequireUppercase = true; 
                 config.User.RequireUniqueEmail = true; 
 
-            }).AddEntityFrameworkStores<CompanyDbContext>();
+            }).AddEntityFrameworkStores<CompanyDbContext>().AddDefaultTokenProviders();
 
             builder.Services.ConfigureApplicationCookie(op => { 
                 op.Cookie.HttpOnly = true;  
@@ -67,7 +67,7 @@ namespace Company.Web
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Account}/{action=Register}");
 
             app.Run();
         }

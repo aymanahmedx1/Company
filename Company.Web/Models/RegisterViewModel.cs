@@ -14,10 +14,10 @@ namespace Company.Web.Models
         public string Email { get; set; }
 
 
-        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*(?:([^\\W\\d_])\\1?(?!.*\\1)){2,}.*$",ErrorMessage ="Password must Has Uniqe Chars , 2 Digits , UpperCase , LowerCase")]
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$", ErrorMessage ="Password must Has Uniqe Chars , 2 Digits , UpperCase , LowerCase")]
         public string Password { get; set; }
 
-        [Compare(nameof(Password),ErrorMessage ="Confirm Password Musr Equal To password")]
+        [Compare(nameof(Password),ErrorMessage ="Confirm Password Must Equal To password")]
         public string ConfirmPassword { get; set; }
         public bool IsAgree { get; set; }
     }
