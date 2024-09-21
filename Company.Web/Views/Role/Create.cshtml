@@ -1,0 +1,14 @@
+﻿@model IdentityRole
+@{
+    ViewData["Title"] = "Add Role";
+
+}
+<h1 class="my-3">Add Role</h1>
+
+<div class="container">
+    <form asp-action="Create" class="mt-5">
+        <partial name="PartialViews/createUpdatePartialView.cshtml" model="@Model"></partial>
+        <button type="submit" class="btn btn-success px-4 my-4"> Save </button>
+        <a asp-action="index" class="btn btn-outline-primary px-3"> Back </a>
+    </form>
+</div>

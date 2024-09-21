@@ -11,6 +11,11 @@ namespace Company.Data.Contexts
         {
 
         }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<AppUser>().HasQueryFilter(x => !x.IsDeleted);
+            base.OnModelCreating(builder);
+        }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Department> Departments { get; set; }
     }

@@ -1,0 +1,19 @@
+﻿@model UpdateUserViewModel
+@{
+    ViewData["Title"] = "User Update";
+}
+<h1 class="my-3">Update User</h1>
+
+<div class="container">
+    <form asp-action="Update" class="mt-5">
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="Email" />
+        <div class="form-group mb-1">
+            <label asp-for="UserName" class="col-form-label">Name</label>
+            <input type="text" class="form-control" asp-for="UserName">
+        </div>
+        <button type="submit" class="btn btn-success px-4 my-4"> Update </button>
+        <a asp-action="index" class="btn btn-outline-primary px-3"> Back </a>
+
+    </form>
+</div>

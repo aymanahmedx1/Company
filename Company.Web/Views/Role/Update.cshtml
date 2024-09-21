@@ -1,0 +1,22 @@
+﻿@model UpdateRoleViewModel
+
+@{
+    ViewData["Title"] = "Role Update";
+}
+
+<h1 class="my-3">Update Role</h1>
+
+<div class="container">
+    <form asp-action="Update" class="mt-5">
+        <input type="hidden" asp-for="Id" />
+        <div class="form-group mb-1">
+            <label asp-for="Name" class="col-form-label">Name</label>
+            <input type="text" class="form-control" asp-for="Name">
+        </div>
+        <div>
+            <a asp-action="AddOrRemoveUsers" asp-route-roleId="@Model.Id"  class="btn btn-primary px-4 my-4"> Add Or Rempve Users </a>
+        </div>
+        <button type="submit" class="btn btn-success px-4 my-4"> Update </button>
+        <a asp-action="index" class="btn btn-outline-primary px-3"> Back </a>
+    </form>
+</div>

@@ -1,0 +1,57 @@
+﻿@model IEnumerable<AppUser>
+@{
+    ViewData["Title"] = "Index";
+}
+<div class="alert alert-success my-3 d-flex justify-content-center align-items-center w-50 mx-auto" role="alert">
+    <h1> All Users </h1>
+</div>
+<div class="my-3">
+    <form asp-action="Index">
+        <div class="d-flex justify-content-center align-items-center w-50 mx-auto">
+            <input type="search" name="searchKeyword" placeholder="Search For Name" class="form-control" value="@ViewBag.searchKeyword" />
+            <button type="submit" class="btn btn-outline-success mx-2">Search</button>
+        </div>
+    </form>
+</div>
+@if (Model.Count() > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">@Html.DisplayNameFor(x => x.Id)</th>
+                <th scope="col">@Html.DisplayNameFor(x => x.UserName)</th>
+                <th scope="col">@Html.DisplayNameFor(x => x.Email)</th>
+                <th scope="col">Details</th>
+                <th scope="col">Update</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.Id</td>
+                    <td>@user.UserName</td>
+                    <td>@user.Email</td>
+                    <partial name="ActionButtonsPartialView" model="@user.Id"></partial>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+}
+else
+{
+    @if (Model.Count() < 1 && !string.IsNullOrEmpty(ViewBag.searchKeyword))
+    {
+        <div class="alert alert-warning" role="alert">
+            No Users Match <span class="text-danger fw-bold">@ViewBag.searchKeyword</span>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning" role="alert">
+            No Users Here... Add One
+        </div>
+    }
+}
